@@ -1,6 +1,6 @@
-const { ApolloServer } = require("@apollo/server");
-const { startStandaloneServer } = require("@apollo/server/standalone");
-const { TODO_LIST } = require("./makeData");
+const { ApolloServer } = require('@apollo/server');
+const { startStandaloneServer } = require('@apollo/server/standalone');
+const { TODO_LIST } = require('./makeData');
 
 /**
  * Gera um número inteiro para utilizar de id
@@ -39,25 +39,69 @@ const typeDefs = `#graphql
 const resolvers = {
   Query: {
     todoList: (_, { filter }) => {
-      // Aqui você irá implementar o filtro dos itens
-      console.log(filter);
-      return TODO_LIST;
+      if (!filter) {
+        return TODO_LIST;
+      }
+
+      const { id, name } = filter;
+
+      return TODO_LIST.filter(item => {
+        let matches = true;
+
+        if (id !== undefined && item.id !== id) {
+          matches = false;
+        }
+
+        if (name !== undefined && !item.name.toLowerCase().includes(name.toLowerCase())) {
+          matches = false;
+        }
+
+        return matches;
+      });
     },
   },
   Mutation: {
     addItem: (_, { values: { name } }) => {
+      const existingItem = TODO_LIST.find(item => item.name.toLowerCase() === name.toLowerCase());
+
+      if (existingItem) {
+        throw new Error(`Uma tarefa com o nome "${name}" já existe.`);
+      }
+
       TODO_LIST.push({
         id: getRandomInt(),
         name,
       });
+
+      return true;
     },
     updateItem: (_, { values: { id, name } }) => {
-      // Aqui você irá implementar a edição do item
-      console.log(id, name);
+      const itemIndex = TODO_LIST.findIndex(item => item.id === id);
+
+      if (itemIndex === -1) {
+        throw new Error(`Item com id ${id} não encontrado.`);
+      }
+
+      const existingItem = TODO_LIST.find(item => item.name.toLowerCase() === name.toLowerCase() && item.id !== id);
+
+      if (existingItem) {
+        throw new Error(`Uma tarefa com o nome "${name}" já existe.`);
+      }
+
+      TODO_LIST[itemIndex].name = name;
+
+      return true;
     },
     deleteItem: (_, { id }) => {
-      // Aqui você irá implementar a remoção do item
-      console.log(id);
+      const itemIndex = TODO_LIST.findIndex(item => item.id === id);
+
+      if (itemIndex === -1) {
+        throw new Error(`Item com id ${id} não encontrado.`);
+      }
+
+      TODO_LIST.splice(itemIndex, 1);
+
+      return true;
     },
   },
 };

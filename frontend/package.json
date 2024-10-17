@@ -3,17 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@apollo/client": "^3.2.5",
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
+    "@apollo/client": "^3.11.8",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.1.4",
     "@mui/material": "^6.1.4",
     "@mui/styled-engine-sc": "^6.1.4",
-    "graphql": "^15.4.0",
-    "react": "^17.0.0 || ^18.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0",
+    "graphql": "^16.9.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hot-toast": "^2.4.1",
     "react-scripts": "^5.0.1",
-    "styled-components": "^6.0.7"
+    "styled-components": "^6.1.13"
   },
   "scripts": {
     "start": "react-scripts start",
