@@ -45,6 +45,7 @@ const resolvers = {
 
       const { id, name } = filter;
 
+      // Filtro da lista sobre o nome e o id
       return TODO_LIST.filter(item => {
         let matches = true;
 
@@ -62,8 +63,10 @@ const resolvers = {
   },
   Mutation: {
     addItem: (_, { values: { name } }) => {
+      // Busca se existe uma tarefa com o mesmo nome
       const existingItem = TODO_LIST.find(item => item.name.toLowerCase() === name.toLowerCase());
 
+      // Retorna um erro se existir uma tarefa com o mesmo nome
       if (existingItem) {
         throw new Error(`Uma tarefa com o nome "${name}" já existe.`);
       }
@@ -76,14 +79,18 @@ const resolvers = {
       return true;
     },
     updateItem: (_, { values: { id, name } }) => {
+      // Busca a tarefa por id
       const itemIndex = TODO_LIST.findIndex(item => item.id === id);
 
+      // Retorna um erro se o id nao existir
       if (itemIndex === -1) {
         throw new Error(`Item com id ${id} não encontrado.`);
       }
 
+      // Busca se existe uma tarefa com o mesmo nome
       const existingItem = TODO_LIST.find(item => item.name.toLowerCase() === name.toLowerCase() && item.id !== id);
 
+      // Retorna um erro se existir uma tarefa com o mesmo nome
       if (existingItem) {
         throw new Error(`Uma tarefa com o nome "${name}" já existe.`);
       }
@@ -93,8 +100,10 @@ const resolvers = {
       return true;
     },
     deleteItem: (_, { id }) => {
+      // Busca a tarefa por id
       const itemIndex = TODO_LIST.findIndex(item => item.id === id);
 
+      // Retorna um erro se o id nao existir
       if (itemIndex === -1) {
         throw new Error(`Item com id ${id} não encontrado.`);
       }
