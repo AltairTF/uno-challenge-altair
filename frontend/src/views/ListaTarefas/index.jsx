@@ -206,7 +206,7 @@ function ListaTarefas() {
           </ContainerTop>
           <List sx={{ width: '100%' }}>
             <ContainerListItem>
-              {data?.todoList?.length === 0 && <div>Nenhuma tarefa adicionada!</div>}
+              {data?.todoList?.length === 0 && <div>Nenhuma tarefa encontrada!</div>}
               {data?.todoList?.map((value, index) => {
                 return (
                   <ListItem
